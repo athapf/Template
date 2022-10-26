@@ -3,7 +3,7 @@ package de.thaso.demo.examples.simplepayroll.producer.kafka.dto;
 public class BookDto {
     private Long id;
     private String title;
-    private String isbd;
+    private String isbn;
     private String author;
 
     public BookDto() {
@@ -12,12 +12,12 @@ public class BookDto {
     public BookDto(
         final Long id,
         final String title,
-        final String isbd,
+        final String isbn,
         final String author
     ) {
         this.id = id;
         this.title = title;
-        this.isbd = isbd;
+        this.isbn = isbn;
         this.author = author;
     }
 
@@ -37,12 +37,12 @@ public class BookDto {
         this.title = title;
     }
 
-    public String getIsbd() {
-        return isbd;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setIsbd(final String isbd) {
-        this.isbd = isbd;
+    public void setIsbn(final String isbn) {
+        this.isbn = isbn;
     }
 
     public String getAuthor() {
@@ -90,9 +90,19 @@ public class BookDto {
             final BookDto result = new BookDto();
             result.id = id;
             result.title = title;
-            result.isbd = isbn;
+            result.isbn = isbn;
             result.author = author;
             return result;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "BookDto{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", isbn='" + isbn + '\'' +
+            ", author='" + author + '\'' +
+            '}';
     }
 }

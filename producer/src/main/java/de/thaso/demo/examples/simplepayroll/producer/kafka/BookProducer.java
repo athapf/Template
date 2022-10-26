@@ -8,19 +8,25 @@ import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 @ApplicationScoped
 public class BookProducer {
+
+    @Inject
+    private BookMapper bookMapper;
 
     private static final Logger LOGGER = Logger.getLogger("BookProducer");
 
     @Channel("values")
     Emitter<BookDto> bookDtoEmitter;
 
-    public Book sendBook(final Book value) {
+    public Book sendBook(final Book book) {
         LOGGER.info("==> sendBook ...");
 
-        bookDtoEmitter.send(BookMapper.INSTANCE.bookToBookDto(value));
-        return value;
+        final BookDto bookDto = bookMapper.bookToBookDto(book);
+        LOGGER.info("send in Topic: " + bookDto.toString());
+        bookDtoEmitter.send(bookDto);
+        return book;
     }
 }

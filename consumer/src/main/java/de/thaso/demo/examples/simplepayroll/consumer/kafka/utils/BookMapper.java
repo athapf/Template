@@ -2,12 +2,11 @@ package de.thaso.demo.examples.simplepayroll.consumer.kafka.utils;
 
 import de.thaso.demo.examples.simplepayroll.consumer.kafka.dto.BookDto;
 import de.thaso.demo.examples.simplepayroll.consumer.service.Book;
+import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "cdi", builder = @Builder(disableBuilder = true))
 public interface BookMapper {
-    BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
 
     BookDto bookToBookDto(Book book);
 

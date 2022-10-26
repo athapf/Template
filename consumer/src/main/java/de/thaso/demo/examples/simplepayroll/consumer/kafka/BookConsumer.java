@@ -15,11 +15,14 @@ public class BookConsumer {
     private static final Logger LOGGER = Logger.getLogger("BookProducer");
 
     @Inject
+    private BookMapper bookMapper;
+
+    @Inject
     private LibraryService libraryService;
 
     @Incoming("values")
     public void process(final BookDto bookDto) {
-        LOGGER.info("process book event");
-        libraryService.consumeBook(BookMapper.INSTANCE.bookDtoToBook(bookDto));
+        LOGGER.info("process book event: " + bookDto.toString());
+        libraryService.consumeBook(bookMapper.bookDtoToBook(bookDto));
     }
 }

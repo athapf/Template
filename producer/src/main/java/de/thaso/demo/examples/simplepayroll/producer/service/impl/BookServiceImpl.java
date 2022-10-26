@@ -9,8 +9,6 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 
 @ApplicationScoped
 public class BookServiceImpl implements BookService {
@@ -20,7 +18,7 @@ public class BookServiceImpl implements BookService {
     private BookProducer bookProducer;
 
     public void createBook(final Book book) {
-        LOGGER.info("createBook ...");
+        LOGGER.info("createBook: " + book.toString());
 
         bookProducer.sendBook(book);
         LOGGER.info("... done");

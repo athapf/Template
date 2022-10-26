@@ -1,9 +1,9 @@
 package de.thaso.demo.examples.simplepayroll.producer.rest;
 
 import de.thaso.demo.examples.simplepayroll.producer.rest.dto.BookDto;
-import de.thaso.demo.examples.simplepayroll.producer.rest.utils.BookMapper;
-import de.thaso.demo.examples.simplepayroll.producer.service.Book;
+import de.thaso.demo.examples.simplepayroll.producer.rest.utils.BookMapperImpl;
 import de.thaso.demo.examples.simplepayroll.producer.service.BookService;
+import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -16,13 +16,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-import org.jboss.logging.Logger;
-
 @Path("/books")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
 public class BookResources {
+
+    @Inject
+    private BookMapperImpl bookMapper;
 
     private static final Logger LOGGER = Logger.getLogger("BookResources");
 
@@ -33,21 +34,21 @@ public class BookResources {
     public List<BookDto> findAllBooks() {
         LOGGER.info("findAllBooks ...");
 
-        return BookMapper.INSTANCE.bookListToBookDtoList(bookService.findAllBooks());
+        return bookMapper.bookListToBookDtoList(bookService.findAllBooks());
     }
 
     @POST
     public void updateBook(final BookDto bookDto) {
         LOGGER.info("updateBook ...");
 
-        bookService.updateBook(BookMapper.INSTANCE.bookDtoToBook(bookDto));
+        bookService.updateBook(bookMapper.bookDtoToBook(bookDto));
     }
 
     @PUT
     public void createBook(final BookDto bookDto) {
-        LOGGER.info("createBook ...");
+        LOGGER.info("createBook: " + bookDto.toString());
 
-        bookService.createBook(BookMapper.INSTANCE.bookDtoToBook(bookDto));
+        bookService.createBook(bookMapper.bookDtoToBook(bookDto));
     }
 
     @GET
@@ -55,6 +56,6 @@ public class BookResources {
     public BookDto findBook(final Long id) {
         LOGGER.info("findBook ...");
 
-        return BookMapper.INSTANCE.bookToBookDto(bookService.findBook(id));
+        return bookMapper.bookToBookDto(bookService.findBook(id));
     }
 }

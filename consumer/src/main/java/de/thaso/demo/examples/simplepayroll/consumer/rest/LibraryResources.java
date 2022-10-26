@@ -1,5 +1,6 @@
 package de.thaso.demo.examples.simplepayroll.consumer.rest;
 
+import de.thaso.demo.examples.simplepayroll.consumer.rest.utils.BookMapper;
 import de.thaso.demo.examples.simplepayroll.consumer.service.LibraryService;
 import org.jboss.logging.Logger;
 
@@ -16,6 +17,9 @@ import javax.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
 public class LibraryResources {
+
+    @Inject
+    private BookMapper bookMapper;
 
     private static final Logger LOGGER = Logger.getLogger("LibraryResources");
 

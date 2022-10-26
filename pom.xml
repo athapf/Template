@@ -26,7 +26,7 @@
         <asciidoctorj.diagram.version>1.5.18</asciidoctorj.diagram.version>
         <jruby.version>9.2.9.0</jruby.version>
     </properties>
- 
+
     <modules>
         <module>producer</module>
         <module>consumer</module>

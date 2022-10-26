@@ -3,7 +3,7 @@ package de.thaso.demo.examples.simplepayroll.consumer.service;
 public class Book {
     private Long id;
     private String title;
-    private String isbd;
+    private String isbn;
     private String author;
 
     public Book() {}
@@ -11,12 +11,12 @@ public class Book {
     public Book(
         final Long id,
         final String title,
-        final String isbd,
+        final String isbn,
         final String author
     ) {
         this.id = id;
         this.title = title;
-        this.isbd = isbd;
+        this.isbn = isbn;
         this.author = author;
     }
 
@@ -36,12 +36,12 @@ public class Book {
         this.title = title;
     }
 
-    public String getIsbd() {
-        return isbd;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setIsbd(final String isbd) {
-        this.isbd = isbd;
+    public void setIsbn(final String isbn) {
+        this.isbn = isbn;
     }
 
     public String getAuthor() {
@@ -84,7 +84,7 @@ public class Book {
             final Book result = new Book();
             result.id = id;
             result.title = title;
-            result.isbd = isbn;
+            result.isbn = isbn;
             result.author = author;
             return result;
         }

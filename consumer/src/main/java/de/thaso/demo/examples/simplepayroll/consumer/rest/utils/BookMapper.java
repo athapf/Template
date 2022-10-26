@@ -2,14 +2,13 @@ package de.thaso.demo.examples.simplepayroll.consumer.rest.utils;
 
 import de.thaso.demo.examples.simplepayroll.consumer.rest.dto.BookDto;
 import de.thaso.demo.examples.simplepayroll.consumer.service.Book;
+import org.mapstruct.Builder;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "cdi", builder = @Builder(disableBuilder = true))
 public interface BookMapper {
-    BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
 
     BookDto bookToBookDto(Book book);
 

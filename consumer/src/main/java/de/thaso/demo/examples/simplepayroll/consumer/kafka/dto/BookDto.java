@@ -3,7 +3,7 @@ package de.thaso.demo.examples.simplepayroll.consumer.kafka.dto;
 public class BookDto {
     private Long id;
     private String title;
-    private String isbd;
+    private String content;
     private String author;
 
     public BookDto() {
@@ -12,12 +12,12 @@ public class BookDto {
     public BookDto(
         final Long id,
         final String title,
-        final String isbd,
+        final String content,
         final String author
     ) {
         this.id = id;
         this.title = title;
-        this.isbd = isbd;
+        this.content = content;
         this.author = author;
     }
 
@@ -37,12 +37,12 @@ public class BookDto {
         this.title = title;
     }
 
-    public String getIsbd() {
-        return isbd;
+    public String getContent() {
+        return content;
     }
 
-    public void setIsbd(final String isbd) {
-        this.isbd = isbd;
+    public void setContent(final String content) {
+        this.content = content;
     }
 
     public String getAuthor() {
@@ -63,7 +63,7 @@ public class BookDto {
 
         private Long id;
         private String title;
-        private String isbn;
+        private String content;
         private String author;
 
         public Builder withId(final Long id) {
@@ -76,8 +76,8 @@ public class BookDto {
             return this;
         }
 
-        public Builder withISBN(final String isbn) {
-            this.isbn = isbn;
+        public Builder withCONTENT(final String content) {
+            this.content = content;
             return this;
         }
 
@@ -90,9 +90,19 @@ public class BookDto {
             final BookDto result = new BookDto();
             result.id = id;
             result.title = title;
-            result.isbd = isbn;
+            result.content = content;
             result.author = author;
             return result;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "BookDto{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", author='" + author + '\'' +
+            '}';
     }
 }
