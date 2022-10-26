@@ -22,15 +22,7 @@ public class BookServiceImpl implements BookService {
     public void createBook(final Book book) {
         LOGGER.info("createBook ...");
 
-        try {
-            bookProducer.sendBook(book);
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        } catch (TimeoutException e) {
-            throw new RuntimeException(e);
-        }
+        bookProducer.sendBook(book);
         LOGGER.info("... done");
     }
 
