@@ -4,5 +4,5 @@ public interface LibraryService {
 
     public void doReset();
 
-    public void consumeBook(final Book value);
+    public void consumeBook(final Book book);
 }

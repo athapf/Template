@@ -1,7 +1,7 @@
 package de.thaso.demo.examples.simplepayroll.producer.rest;
 
 import de.thaso.demo.examples.simplepayroll.producer.rest.dto.BookDto;
-import de.thaso.demo.examples.simplepayroll.producer.rest.utils.BookMapperImpl;
+import de.thaso.demo.examples.simplepayroll.producer.rest.utils.BookMapper;
 import de.thaso.demo.examples.simplepayroll.producer.service.BookService;
 import org.jboss.logging.Logger;
 
@@ -23,7 +23,7 @@ import java.util.List;
 public class BookResources {
 
     @Inject
-    private BookMapperImpl bookMapper;
+    private BookMapper bookMapper;
 
     private static final Logger LOGGER = Logger.getLogger("BookResources");
 

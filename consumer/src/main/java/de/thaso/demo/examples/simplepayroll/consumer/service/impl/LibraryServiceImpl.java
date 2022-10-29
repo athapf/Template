@@ -8,13 +8,13 @@ import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class LibraryServiceImpl implements LibraryService {
-    private static final Logger LOGGER = Logger.getLogger("LibraryServiceImpl");
+    private static final Logger LOGGER = Logger.getLogger(LibraryService.class);
 
     @Override
     public void doReset() {
     }
 
-    public void consumeBook(final Book value) {
-        LOGGER.info("consumeBook: " + value.toString());
+    public void consumeBook(final Book book) {
+        LOGGER.info("consumeBook: " + book.toString());
     }
 }

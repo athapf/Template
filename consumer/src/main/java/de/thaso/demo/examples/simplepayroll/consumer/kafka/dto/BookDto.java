@@ -1,5 +1,8 @@
 package de.thaso.demo.examples.simplepayroll.consumer.kafka.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BookDto {
     private Long id;
     private String title;
@@ -76,7 +79,7 @@ public class BookDto {
             return this;
         }
 
-        public Builder withCONTENT(final String content) {
+        public Builder withContent(final String content) {
             this.content = content;
             return this;
         }
