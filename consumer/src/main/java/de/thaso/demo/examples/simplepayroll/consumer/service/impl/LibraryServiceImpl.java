@@ -15,6 +15,6 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     public void consumeBook(final Book value) {
-        LOGGER.info("consumeBook ...");
+        LOGGER.info("consumeBook: " + value.toString());
     }
 }

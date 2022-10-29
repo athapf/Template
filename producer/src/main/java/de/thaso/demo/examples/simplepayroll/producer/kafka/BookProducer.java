@@ -3,6 +3,7 @@ package de.thaso.demo.examples.simplepayroll.producer.kafka;
 import de.thaso.demo.examples.simplepayroll.producer.kafka.dto.BookDto;
 import de.thaso.demo.examples.simplepayroll.producer.kafka.utils.BookMapper;
 import de.thaso.demo.examples.simplepayroll.producer.service.Book;
+import io.smallrye.reactive.messaging.kafka.Record;
 import org.eclipse.microprofile.reactive.messaging.Channel;
 import org.eclipse.microprofile.reactive.messaging.Emitter;
 import org.jboss.logging.Logger;
@@ -19,14 +20,14 @@ public class BookProducer {
     private static final Logger LOGGER = Logger.getLogger("BookProducer");
 
     @Channel("values")
-    Emitter<BookDto> bookDtoEmitter;
+    Emitter<Record<String, BookDto>> bookDtoEmitter;
 
     public Book sendBook(final Book book) {
         LOGGER.info("==> sendBook ...");
 
         final BookDto bookDto = bookMapper.bookToBookDto(book);
         LOGGER.info("send in Topic: " + bookDto.toString());
-        bookDtoEmitter.send(bookDto);
+        bookDtoEmitter.send(Record.of("Hello", bookDto));
         return book;
     }
 }
