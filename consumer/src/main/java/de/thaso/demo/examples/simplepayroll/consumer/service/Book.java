@@ -52,6 +52,16 @@ public class Book {
         this.author = author;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", author='" + author + '\'' +
+            '}';
+    }
+
     public static Builder builder() {
         return new Builder();
 }
@@ -59,10 +69,10 @@ public class Book {
     public static class Builder {
         private Builder() {}
 
-    private Long id;
-    private String title;
-    private String content;
-    private String author;
+        private Long id;
+        private String title;
+        private String content;
+        private String author;
 
         public Builder withId(final Long id) {
             this.id = id;
@@ -92,15 +102,5 @@ public class Book {
             result.author = author;
             return result;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-            "id=" + id +
-            ", title='" + title + '\'' +
-            ", content='" + content + '\'' +
-            ", author='" + author + '\'' +
-            '}';
     }
 }

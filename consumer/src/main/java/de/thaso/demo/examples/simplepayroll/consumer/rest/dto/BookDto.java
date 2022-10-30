@@ -53,6 +53,16 @@ public class BookDto {
         this.author = author;
     }
 
+    @Override
+    public String toString() {
+        return "BookDto{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", author='" + author + '\'' +
+            '}';
+    }
+
     public static Builder builder() {
         return new Builder();
     }

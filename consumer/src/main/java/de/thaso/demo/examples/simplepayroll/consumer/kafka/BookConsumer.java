@@ -15,14 +15,13 @@ import java.util.concurrent.CompletionStage;
 
 @ApplicationScoped
 public class BookConsumer {
-
     private static final Logger LOGGER = Logger.getLogger(BookConsumer.class);
 
     @Inject
-    private BookMapper bookMapper;
+    private LibraryService libraryService;
 
     @Inject
-    private LibraryService libraryService;
+    private BookMapper bookMapper;
 
     @Incoming("values")
     public CompletionStage<Void> consume(KafkaRecord<Long, byte[]> kafkaRecord) {

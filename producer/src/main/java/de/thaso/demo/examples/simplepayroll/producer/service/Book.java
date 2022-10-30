@@ -53,6 +53,16 @@ public class Book {
         this.author = author;
     }
 
+    @Override
+    public String toString() {
+        return "Book{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", isbn='" + isbn + '\'' +
+            ", author='" + author + '\'' +
+            '}';
+    }
+
     public static Builder builder() {
         return new Book.Builder();
     }
@@ -94,15 +104,5 @@ public class Book {
             result.author = author;
             return result;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-            "id=" + id +
-            ", title='" + title + '\'' +
-            ", isbn='" + isbn + '\'' +
-            ", author='" + author + '\'' +
-            '}';
     }
 }

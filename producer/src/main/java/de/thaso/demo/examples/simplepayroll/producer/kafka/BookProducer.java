@@ -15,11 +15,10 @@ import javax.inject.Inject;
 
 @ApplicationScoped
 public class BookProducer {
+    private static final Logger LOGGER = Logger.getLogger("BookProducer");
 
     @Inject
     private BookMapper bookMapper;
-
-    private static final Logger LOGGER = Logger.getLogger("BookProducer");
 
     @Channel("values")
     Emitter<Record<Long, byte[]>> bookDtoEmitter;

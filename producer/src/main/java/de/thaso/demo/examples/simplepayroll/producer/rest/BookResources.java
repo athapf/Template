@@ -21,14 +21,13 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
 public class BookResources {
-
-    @Inject
-    private BookMapper bookMapper;
-
     private static final Logger LOGGER = Logger.getLogger("BookResources");
 
     @Inject
     private BookService bookService;
+
+    @Inject
+    private BookMapper bookMapper;
 
     @GET
     public List<BookDto> findAllBooks() {
@@ -52,7 +51,7 @@ public class BookResources {
     }
 
     @GET
-    @Path("{number}")
+    @Path("{id}")
     public BookDto findBook(final Long id) {
         LOGGER.info("findBook ...");
 

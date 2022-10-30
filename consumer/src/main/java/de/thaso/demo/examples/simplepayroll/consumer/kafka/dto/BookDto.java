@@ -60,6 +60,16 @@ public class BookDto {
         return new Builder();
     }
 
+    @Override
+    public String toString() {
+        return "BookDto{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", content='" + content + '\'' +
+            ", author='" + author + '\'' +
+            '}';
+    }
+
     public static class Builder {
         private Builder() {
         }
@@ -97,15 +107,5 @@ public class BookDto {
             result.author = author;
             return result;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "BookDto{" +
-            "id=" + id +
-            ", title='" + title + '\'' +
-            ", content='" + content + '\'' +
-            ", author='" + author + '\'' +
-            '}';
     }
 }

@@ -52,6 +52,17 @@ public class BookDto {
     public void setAuthor(final String author) {
         this.author = author;
     }
+
+    @Override
+    public String toString() {
+        return "BookDto{" +
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", isbn='" + isbn + '\'' +
+            ", author='" + author + '\'' +
+            '}';
+    }
+
     public static Builder builder() {
         return new BookDto.Builder();
     }
@@ -93,14 +104,5 @@ public class BookDto {
             result.author = author;
             return result;
         }
-    }
-    @Override
-    public String toString() {
-        return "BookDto{" +
-            "id=" + id +
-            ", title='" + title + '\'' +
-            ", isbn='" + isbn + '\'' +
-            ", author='" + author + '\'' +
-            '}';
     }
 }

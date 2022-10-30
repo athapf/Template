@@ -1,7 +1,11 @@
 package de.thaso.demo.examples.simplepayroll.consumer.rest;
 
+import de.thaso.demo.examples.simplepayroll.consumer.rest.dto.StockDto;
 import de.thaso.demo.examples.simplepayroll.consumer.rest.utils.BookMapper;
+import de.thaso.demo.examples.simplepayroll.consumer.rest.utils.StockMapper;
 import de.thaso.demo.examples.simplepayroll.consumer.service.LibraryService;
+import de.thaso.demo.examples.simplepayroll.consumer.service.Stock;
+import io.smallrye.mutiny.Multi;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -17,14 +21,16 @@ import javax.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
 public class LibraryResources {
-
-    @Inject
-    private BookMapper bookMapper;
-
     private static final Logger LOGGER = Logger.getLogger("LibraryResources");
 
     @Inject
     private LibraryService libraryService;
+
+    @Inject
+    private BookMapper bookMapper;
+
+    @Inject
+    private StockMapper stockMapper;
 
     @GET
     @Path("/reset")
@@ -32,5 +38,14 @@ public class LibraryResources {
         LOGGER.info("doReset ...");
 
         libraryService.doReset();
+    }
+
+    @GET
+    @Path("{pos}/stock")
+    @Produces(MediaType.SERVER_SENT_EVENTS)
+    public Multi<StockDto> inStock(final String pos) {
+        LOGGER.info("inStock: " + pos);
+        return libraryService.stockInfo(pos).onItem().transform(
+            stock -> stockMapper.stockToStockDto(stock));
     }
 }
