@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<komponent name="Producer" package="producer">
+
+    <resources path="books">
+        <resource name="ShoppingWindow"
+                  path="books"
+                  service="BookService">
+            <dto name="Book" entity="MyBook"/>
+            <method type="GET"
+                    name="findAllBooks"
+                    result="list"
+                    dto="Book"/>
+            <method type="POST"
+                    name="updateBook"
+                    dto="Book"/>
+            <method type="PUT"
+                    name="createBook"
+                    dto="Book"/>
+            <method type="GET"
+                    path="{id}"
+                    name="findBookById"
+                    result="single"
+                    dto="Book">
+                <param name="id" type="Long"/>
+            </method>
+        </resource>
+    </resources>
+
+    <topics>
+        <producer name="send"
+                  topic="registeredBooks"
+                  object="record"
+                  key="Long">
+            <dto name="Book" entity="MyBook"/>
+        </producer>
+    </topics>
+
+    <database>
+        <dao target="cassandra">
+            <entities>
+                <entity name="Book">
+                    <field name="Id" type="Long" key="true"/>
+                    <include name="Book"/>
+                </entity>
+            </entities>
+
+            <method name="create" type="insert" entity="Book"/>
+            <method name="update" type="update" entity="Book"/>
+            <method name="findBookWithIsbn" type="single" entity="Book">
+                <param name="Isbn" type="String"/>
+            </method>
+            <method name="findAllBooks" type="pagination" entity="Book"/>
+            <method name="findBookWithAuthor" type="list" entity="Book">
+                <param name="Author" type="String"/>
+            </method>
+        </dao>
+    </database>
+
+    <services>
+        <service name="Book">
+            <method name="findAllBooks">
+                <result list="true" type="Book"/>
+            </method>
+        </service>
+    </services>
+
+    <datacatalog>
+        <entity name="MyBook">
+            <field name="Id" type="Long" key="true"/>
+            <field name="Title" type="String"/>
+            <field name="Isbn" type="String"/>
+            <field name="Author" type="String"/>
+        </entity>
+    </datacatalog>
+</komponent>
