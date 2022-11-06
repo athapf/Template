@@ -29,7 +29,6 @@
                   key="Long">
             <dto name="Book" entity="MyBook"/>
         </consumer>
-        <in-memory name="work" type="String"/>
     </topics>
 
     <database>

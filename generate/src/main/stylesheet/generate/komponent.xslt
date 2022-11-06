@@ -6,6 +6,7 @@
     <xsl:import href="./data/mapper.xslt"/>
     <xsl:import href="./resources/resources.xslt"/>
     <xsl:import href="./kafka/topic.xslt"/>
+    <xsl:import href="./service/service.xslt"/>
 
     <xsl:template match="komponent">
         <xsl:apply-templates select="./descendant::dto"/>
@@ -14,5 +15,6 @@
         <xsl:apply-templates select="./descendant::consumer"/>
         <xsl:apply-templates select="./descendant::producer"/>
         <xsl:apply-templates select="./descendant::resources"/>
+        <xsl:apply-templates select="./descendant::node()[./@service]" mode="service"/>
     </xsl:template>
 </xsl:stylesheet>
