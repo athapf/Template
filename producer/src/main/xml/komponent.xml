@@ -36,24 +36,19 @@
         </producer>
     </topics>
 
-    <database>
-        <dao target="cassandra">
-            <entities>
-                <entity name="Book">
-                    <field name="Id" type="Long" key="true"/>
-                    <include name="Book"/>
-                </entity>
-            </entities>
-
-            <method name="create" type="insert" entity="Book"/>
-            <method name="update" type="update" entity="Book"/>
-            <method name="findBookWithIsbn" type="single" entity="Book">
-                <param name="Isbn" type="String"/>
-            </method>
-            <method name="findAllBooks" type="pagination" entity="Book"/>
-            <method name="findBookWithAuthor" type="list" entity="Book">
-                <param name="Author" type="String"/>
-            </method>
+    <database keyspace="producer">
+        <dao name="Book2" target="cassandra">
+            <insert entity="Book"/>
+            <findall entity="Book"/>
+            <select name="findBookWithIsbn" result="single" entity="Book">
+                <param name="isbn" type="String"/>
+                <quer>select e from book e where e.isbn=:isbn</quer>
+            </select>
+            <select name="findBookWithAuthor" result="list" entity="Book">
+                <param name="author" type="String"/>
+                <quer>select e from book e where e.author=:author</quer>
+            </select>
+            <entity name="Book" data="MyBook"/>
         </dao>
     </database>
 

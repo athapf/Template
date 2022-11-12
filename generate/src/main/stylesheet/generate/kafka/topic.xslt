@@ -64,6 +64,7 @@
     </xsl:template>
 
     <xsl:template match="consumer" mode="method">
+        <xsl:text>    @Blocking&#xA;</xsl:text>
         <xsl:text>    @Incoming("</xsl:text>
         <xsl:value-of select="./@topic"/>
         <xsl:text>")&#xA;</xsl:text>
@@ -170,6 +171,7 @@
             <xsl:text>&#xA;</xsl:text>
             <xsl:text>import com.fasterxml.jackson.databind.ObjectMapper;&#xA;</xsl:text>
             <xsl:text>import io.smallrye.reactive.messaging.kafka.KafkaRecord;&#xA;</xsl:text>
+            <xsl:text>import io.smallrye.reactive.messaging.annotations.Blocking;&#xA;</xsl:text>
             <xsl:text>import org.eclipse.microprofile.reactive.messaging.Incoming;&#xA;</xsl:text>
             <xsl:text>import org.jboss.logging.Logger;&#xA;</xsl:text>
             <xsl:text>&#xA;</xsl:text>

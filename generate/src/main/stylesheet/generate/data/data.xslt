@@ -9,6 +9,11 @@
 
     <xsl:template match="field" mode="variable">
         <xsl:param name="indent"></xsl:param>
+        <xsl:param name="kind"/>
+        <xsl:if test="$kind='entity' and ./@key='true'">
+            <xsl:value-of select="$indent"/>
+            <xsl:text>@PartitionKey&#xA;</xsl:text>
+        </xsl:if>
         <xsl:value-of select="$indent"/>
         <xsl:text>    private </xsl:text>
         <xsl:value-of select="./@type"/>
@@ -157,6 +162,91 @@
         </xsl:result-document>
     </xsl:template>
 
+    <xsl:template name="data-entity">
+        <xsl:param name="filename"/>
+        <xsl:param name="package"/>
+        <xsl:param name="classname"/>
+        <xsl:param name="table"/>
+        <xsl:param name="fields"/>
+
+        <xsl:result-document href="{$filename}">
+            <xsl:text>package </xsl:text>
+            <xsl:value-of select="$package"/>
+            <xsl:text>;&#xA;</xsl:text>
+            <xsl:text>&#xA;</xsl:text>
+            <xsl:text>import com.datastax.oss.driver.api.mapper.annotations.Entity;&#xA;</xsl:text>
+            <xsl:text>import com.datastax.oss.driver.api.mapper.annotations.NamingStrategy;&#xA;</xsl:text>
+            <xsl:text>import com.datastax.oss.driver.api.mapper.annotations.CqlName;&#xA;</xsl:text>
+            <xsl:text>import com.datastax.oss.driver.api.mapper.annotations.PartitionKey;&#xA;</xsl:text>
+            <xsl:text>import com.datastax.oss.driver.api.mapper.entity.naming.NamingConvention;&#xA;</xsl:text>
+            <xsl:text>&#xA;</xsl:text>
+            <xsl:text>import java.math.BigDecimal;&#xA;</xsl:text>
+            <xsl:text>import java.util.Date;&#xA;</xsl:text>
+            <xsl:text>&#xA;</xsl:text>
+            <xsl:text>@Entity(defaultKeyspace = "</xsl:text>
+            <xsl:value-of select="../../@keyspace"/>
+            <xsl:text>")&#xA;</xsl:text>
+            <xsl:text>//@NamingStrategy(convention = NamingConvention.UPPER_CASE)&#xA;</xsl:text>
+            <xsl:text>@CqlName("</xsl:text>
+            <xsl:value-of select="$table"/>
+            <xsl:text>")&#xA;</xsl:text>
+            <xsl:text>public class </xsl:text>
+            <xsl:value-of select="$classname"/>
+            <xsl:text>{&#xA;</xsl:text>
+            <xsl:apply-templates select="$fields" mode="variable">
+                <xsl:with-param name="kind">entity</xsl:with-param>
+            </xsl:apply-templates>
+            <xsl:text>&#xA;</xsl:text>
+            <xsl:text>    public </xsl:text>
+            <xsl:value-of select="$classname"/>
+            <xsl:text>() {}&#xA;</xsl:text>
+            <xsl:text>&#xA;</xsl:text>
+            <xsl:text>    public </xsl:text>
+            <xsl:value-of select="$classname"/>
+            <xsl:text>(</xsl:text>
+            <xsl:apply-templates select="$fields" mode="param"/>
+            <xsl:text>) {&#xA;</xsl:text>
+            <xsl:apply-templates select="$fields" mode="assign"/>
+            <xsl:text>    }&#xA;</xsl:text>
+            <xsl:text>&#xA;</xsl:text>
+            <xsl:text>    @Override&#xA;</xsl:text>
+            <xsl:text>    public String toString() {&#xA;</xsl:text>
+            <xsl:text>        return "</xsl:text>
+            <xsl:value-of select="$classname"/>
+            <xsl:text>{" +&#xA;</xsl:text>
+            <xsl:apply-templates select="$fields" mode="to-string"/>
+            <xsl:text>            '}';&#xA;</xsl:text>
+            <xsl:text>    }&#xA;</xsl:text>
+            <xsl:text>&#xA;</xsl:text>
+            <xsl:apply-templates select="$fields" mode="setter-getter"/>
+            <xsl:text>    public static Builder builder() {&#xA;</xsl:text>
+            <xsl:text>        return new Builder();&#xA;</xsl:text>
+            <xsl:text>    }&#xA;</xsl:text>
+            <xsl:text>&#xA;</xsl:text>
+            <xsl:text>    public static class Builder {&#xA;</xsl:text>
+            <xsl:text>        private Builder() {}&#xA;</xsl:text>
+            <xsl:text>&#xA;</xsl:text>
+            <xsl:apply-templates select="$fields" mode="variable">
+                <xsl:with-param name="indent" select="'    '"/>
+            </xsl:apply-templates>
+            <xsl:text>&#xA;</xsl:text>
+            <xsl:apply-templates select="$fields" mode="with"/>
+            <xsl:text>        public </xsl:text>
+            <xsl:value-of select="$classname"/>
+            <xsl:text> build() {&#xA;</xsl:text>
+            <xsl:text>            final </xsl:text>
+            <xsl:value-of select="$classname"/>
+            <xsl:text> result = new </xsl:text>
+            <xsl:value-of select="$classname"/>
+            <xsl:text>();&#xA;</xsl:text>
+            <xsl:apply-templates select="$fields" mode="build"/>
+            <xsl:text>            return result;&#xA;</xsl:text>
+            <xsl:text>        }&#xA;</xsl:text>
+            <xsl:text>    }&#xA;</xsl:text>
+            <xsl:text>}&#xA;</xsl:text>
+        </xsl:result-document>
+    </xsl:template>
+
     <xsl:template match="dto">
         <xsl:variable name="subpackage">
             <xsl:choose>
@@ -175,6 +265,27 @@
         <xsl:call-template name="data">
             <xsl:with-param name="package" select="$package"/>
             <xsl:with-param name="classname" select="$classname"/>
+            <xsl:with-param name="filename" select="$filename"/>
+            <xsl:with-param name="fields" select="$fields"/>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template match="entity" mode="dao">
+        <xsl:variable name="subpackage" select="concat('data.',../@target)"/>
+        <xsl:variable name="data-name" select="./@data"/>
+        <xsl:variable name="package" select="concat(translate($KomponentPath,'/','.'),'.',translate(/komponent/@name,$upper,$lower),'.',$subpackage)"/>
+        <xsl:variable name="classname" select="concat(./@name,'Entity')"/>
+        <xsl:variable name="filename" select="concat($OutputBaseDirectory,'/',translate($package,'.','/'),'/',$classname,'.java')"/>
+        <xsl:variable name="fields" select="/komponent/datacatalog/entity[./@name=$data-name]/field"/>
+
+        <xsl:call-template name="data-entity">
+            <xsl:with-param name="package" select="$package"/>
+            <xsl:with-param name="classname" select="$classname"/>
+            <xsl:with-param name="table">
+                <xsl:call-template name="allUpper">
+                    <xsl:with-param name="text" select="./@name"/>
+                </xsl:call-template>
+            </xsl:with-param>
             <xsl:with-param name="filename" select="$filename"/>
             <xsl:with-param name="fields" select="$fields"/>
         </xsl:call-template>

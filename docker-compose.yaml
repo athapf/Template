@@ -67,3 +67,4 @@ services:
 networks:
   template-network:
     name: tempnet
+    external: true

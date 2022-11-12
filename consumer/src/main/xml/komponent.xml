@@ -31,11 +31,18 @@
         </consumer>
     </topics>
 
-    <database>
-        <dao target="cassandra" entity="Worktime">
-            <update/>
-            <select/>
-            <store/>
+    <database keyspace="consumer">
+        <dao name="Management" target="cassandra">
+            <crud entity="Employee"/>
+            <select name="findBooksByTitle" entity="Employee" result="list">
+                <param name="title" type="String"/>
+                <quer>select e from employee e where e.surename=:title </quer>
+            </select>
+            <select name="findBookByIsbn" entity="Employee" result="single">
+                <param name="isbn" type="String"/>
+                <quer>select e from employee e where e.isbn=:isbn</quer>
+            </select>
+            <entity name="Employee" data="MyBook"/>
         </dao>
     </database>
 
