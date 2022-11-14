@@ -2,7 +2,7 @@
 <xsl:stylesheet version="2.0"
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-    <xsl:template match="consumer|producer" mode="imports">
+    <xsl:template name="imports">
         <xsl:param name="dto-package-prefix"/>
         <xsl:param name="utils-package-prefix"/>
         <xsl:param name="service-package-prefix"/>
@@ -40,7 +40,7 @@
         <xsl:text>&#xA;</xsl:text>
     </xsl:template>
 
-    <xsl:template match="consumer|producer" mode="variables">
+    <xsl:template name="variables">
         <xsl:if test="./@service">
             <xsl:text>    @Inject&#xA;</xsl:text>
             <xsl:text>    private </xsl:text>
@@ -63,7 +63,7 @@
         <xsl:text>&#xA;</xsl:text>
     </xsl:template>
 
-    <xsl:template match="consumer" mode="method">
+    <xsl:template name="consumer-method">
         <xsl:text>    @Blocking&#xA;</xsl:text>
         <xsl:text>    @Incoming("</xsl:text>
         <xsl:value-of select="./@topic"/>
@@ -97,7 +97,7 @@
         <xsl:text>    }&#xA;</xsl:text>
     </xsl:template>
 
-    <xsl:template match="producer" mode="method">
+    <xsl:template name="producer-method">
         <xsl:text>    @Channel("</xsl:text>
         <xsl:value-of select="./@topic"/>
         <xsl:text>")&#xA;</xsl:text>
@@ -180,11 +180,11 @@
             <xsl:text>import java.io.IOException;&#xA;</xsl:text>
             <xsl:text>import java.util.concurrent.CompletionStage;&#xA;</xsl:text>
             <xsl:text>&#xA;</xsl:text>
-            <xsl:apply-templates select="." mode="imports">
+            <xsl:call-template name="imports">
                 <xsl:with-param name="dto-package-prefix" select="$dto-package-prefix"/>
                 <xsl:with-param name="utils-package-prefix" select="$utils-package-prefix"/>
                 <xsl:with-param name="service-package-prefix" select="$service-package-prefix"/>
-            </xsl:apply-templates>
+            </xsl:call-template>
 
             <xsl:text>@ApplicationScoped&#xA;</xsl:text>
             <xsl:text>public class </xsl:text>
@@ -194,10 +194,13 @@
             <xsl:value-of select="$classname"/>
             <xsl:text>.class);&#xA;</xsl:text>
             <xsl:text>&#xA;</xsl:text>
-            <xsl:apply-templates select="../consumer" mode="variables"/>
-            <xsl:apply-templates select="../producer" mode="variables"/>
-            <xsl:apply-templates select="../consumer" mode="method"/>
-            <xsl:apply-templates select="../producer" mode="method"/>
+            <xsl:call-template name="variables"/>
+            <xsl:if test="name()='consumer'">
+                <xsl:call-template name="consumer-method"/>
+            </xsl:if>
+            <xsl:if test="name()='producer'">
+                <xsl:call-template name="producer-method"/>
+            </xsl:if>
             <xsl:text>}&#xA;</xsl:text>
         </xsl:result-document>
     </xsl:template>
