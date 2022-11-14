@@ -26,6 +26,7 @@
         <asciidoctorj.version>1.6.2</asciidoctorj.version>
         <asciidoctorj.diagram.version>1.5.18</asciidoctorj.diagram.version>
         <jruby.version>9.2.9.0</jruby.version>
+        <generate-excludes></generate-excludes>
     </properties>
 
     <modules>
@@ -132,6 +133,10 @@
                                     <parameter>
                                         <name>KomponentPath</name>
                                         <value>de/thaso/demo/examples/templates</value>
+                                    </parameter>
+                                    <parameter>
+                                        <name>Exclude</name>
+                                        <value>${generate-excludes}</value>
                                     </parameter>
                                 </parameters>
                                 <outputDir>${project.build.directory}/generated-sources/xml</outputDir>

@@ -7,7 +7,11 @@
 
     <xsl:output method="text" encoding="UTF-8"/>
 
+    <xsl:param name="Exclude"/>
+
     <xsl:template match="/">
-        <xsl:apply-templates select="/komponent"/>
+        <xsl:if test="not($Exclude='all')">
+            <xsl:apply-templates select="/komponent"/>
+        </xsl:if>
     </xsl:template>
 </xsl:stylesheet>
